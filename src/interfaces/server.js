@@ -1,7 +1,12 @@
-import "dotenv/config.js";
-import connectDB from "./config/database.js";
-import app from "./interfaces/server.js";
-const PORT = process.env.PORT || 3000;
-connectDB().then(() => {
-  app.listen(PORT, () => console.log(`Servidor corriendo en puerto ${PORT}`));
-});
+import express from "express";
+import userRoutes from "../infrastructure/routes/userRoutes.js";
+import loginRoutes from "../infrastructure/routes/loginRoutes.js";
+import productoRoutes from "../infrastructure/routes/productoRoures.js";
+import ordersRoutes from "../infrastructure/routes/ordersRoutes.js";
+const app = express();
+app.use(express.json());
+app.use("/api/auth/register", userRoutes);
+app.use("/api/auth/login", loginRoutes);
+app.use("/api/productos", productoRoutes);
+app.use("/api/orders", ordersRoutes);
+export default app;
