@@ -2,35 +2,31 @@ import CreateProducto from "../../application/use-cases/producto/CreateProduct.j
 import GetProductos from "../../application/use-cases/producto/GetProduct.js";
 import GetProductoById from "../../application/use-cases/producto/GetProductById.js";
 import UpdateProducto from "../../application/use-cases/producto/UpdateProduct.js";
-import DeleteProducto from "../../application/use-cases/producto/DelteProduct.js"; // <- ojo, parece un typo: "DelteProduct"
+import DeleteProducto from "../../application/use-cases/producto/DelteProduct.js";
 import ProductoRepositoryMongo from "../repositories/ProductoRepositoryMongo.js";
 
-// Repositorio que conecta con MongoDB
 const repo = new ProductoRepositoryMongo();
 
-// Crear un nuevo producto
 export const createProducto = async (req, res) => {
   try {
-    const uc = new CreateProducto(repo); // Caso de uso CreateProduct
+    const uc = new CreateProducto(repo);
     const newProducto = await uc.execute(req.body);
-    res.status(201).json(newProducto); // Devuelve el producto creado
+    res.status(201).json(newProducto);
   } catch (err) {
-    res.status(400).json({ error: err.message }); // Error de validación
+    res.status(400).json({ error: err.message });
   }
 };
 
-// Obtener todos los productos
 export const getProductos = async (req, res) => {
   try {
-    const uc = new GetProductos(repo); // Caso de uso GetProduct
+    const uc = new GetProductos(repo);
     const productos = await uc.execute();
     res.json(productos);
   } catch (err) {
-    res.status(500).json({ error: err.message }); // Error interno
+    res.status(500).json({ error: err.message });
   }
 };
 
-// Obtener un producto por ID
 export const getProductoById = async (req, res) => {
   try {
     const uc = new GetProductoById(repo);
@@ -42,7 +38,6 @@ export const getProductoById = async (req, res) => {
   }
 };
 
-// Actualizar un producto
 export const updateProducto = async (req, res) => {
   try {
     const uc = new UpdateProducto(repo);
@@ -50,11 +45,10 @@ export const updateProducto = async (req, res) => {
     if (!updated) return res.status(404).json({ message: "Producto no encontrado" });
     res.json(updated);
   } catch (err) {
-    res.status(400).json({ error: err.message }); // Error de validación
+    res.status(400).json({ error: err.message });
   }
 };
 
-// Eliminar un producto
 export const deleteProducto = async (req, res) => {
   try {
     const uc = new DeleteProducto(repo);

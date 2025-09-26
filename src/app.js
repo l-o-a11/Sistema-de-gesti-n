@@ -1,23 +1,12 @@
-// Importa la librería dotenv y carga automáticamente las variables de entorno 
-// definidas en el archivo .env dentro de process.env
-import "dotenv/config.js";
-
-// Importa la función que maneja la conexión a la base de datos
-import connectDB from "./config/database.js";
-
-// Importa la configuración del servidor (normalmente Express con sus rutas y middlewares)
-import app from "./interfaces/server.js";
-
-// Define el puerto en el que correrá el servidor. 
-// Si existe una variable de entorno PORT, la usa; de lo contrario, será 3000 por defecto.
-const PORT = process.env.PORT || 3000;
-
-// Llama a la función para conectar a la base de datos.
-// Como es una función asíncrona, se usa .then() para ejecutar el servidor 
-// solo si la conexión fue exitosa.
-connectDB().then(() => {
-  
-  // Inicia el servidor en el puerto definido y muestra un mensaje en consola
-  // confirmando que está corriendo correctamente.
-  app.listen(PORT, () => console.log(`Servidor corriendo en puerto ${PORT}`));
-});
+import express from "express";
+import userRoutes from "./infrastructure/routes/userRoutes.js";
+import loginRoutes from "./infrastructure/routes/loginRoutes.js";
+import productoRoutes from "./infrastructure/routes/productoRoures.js";
+import ordersRoutes from "./infrastructure/routes/ordersRoutes.js";
+const app = express();
+app.use(express.json());
+app.use("/api/auth/register", userRoutes);
+app.use("/api/auth/login", loginRoutes);
+app.use("/api/productos", productoRoutes);
+app.use("/api/orders", ordersRoutes);
+export default app;
