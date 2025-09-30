@@ -7,6 +7,6 @@ export default class UpdateProducto {
   
     async execute(id, userData) {
       const user = new Producto(userData);
-      return await this.userRepository.update(id, user);
+     return await this.ProductoRepository.update(id, user);
     }
 }  
